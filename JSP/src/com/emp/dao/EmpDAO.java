@@ -8,6 +8,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.emp.vo.EmpVO;
+
 public class EmpDAO {
 	
 	private EmpDAO() {
@@ -77,4 +79,46 @@ public class EmpDAO {
 		 }
 		return result;
 	}
+
+	public EmpVO getEmp(String id) {
+		 Connection conn = null;
+		 PreparedStatement pstmt = null;
+		 ResultSet rs = null;
+		 
+		 EmpVO vo =null;
+		 
+		 String sql= "select*from emp where id=?";
+		 
+		 try {
+			 conn = getConnection();
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, id);
+			 
+			 rs= pstmt.executeQuery(); // executeQuery로 쿼리 실행 시킨 후 rs라는 객체에 저장 
+			 
+			 if(rs.next()) {
+				 vo = new EmpVO();
+				 
+				 vo.setId(rs.getString("id"));
+				 vo.setPw(rs.getString("pw"));
+				 vo.setName(rs.getString("name"));
+				 vo.setLv(rs.getString("lv"));
+				 vo.setEnter(rs.getDate("enter"));
+				 vo.setGender(rs.getString("gender"));
+				 vo.setPhone(rs.getString("phone"));
+			 }
+		     } catch(Exception e) {
+				e.printStackTrace();
+			 } finally {
+				 try {
+					 rs.close();
+					 pstmt.close();
+					 conn.close();
+				 } catch(Exception e) {
+					 e.printStackTrace();
+				 }
+			 }
+			return vo;
+		}
 }

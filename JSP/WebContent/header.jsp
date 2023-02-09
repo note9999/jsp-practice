@@ -35,7 +35,7 @@ td:hover{
 
 	<table>
 		<tr>
-				<td></td> <!-- 로그인시 환영메시지 -->				
+				<td>${loginUser.name}</td> <!-- 로그인시 환영메시지 -->				
 				<td></td> <!-- 로그인시 등급 출력 -->				
 				<td>
 					<a href="login.jsp">로그인</a>

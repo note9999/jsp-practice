@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.emp.dao.EmpDAO;
+import com.emp.vo.EmpVO;
 
 
 @WebServlet("/login.do")
@@ -29,6 +31,7 @@ public class LoginServlet extends HttpServlet {
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	String lv = request.getParameter("lv");
+	String url= "login.jsp";
 	
 	EmpDAO dao = EmpDAO.getInstance();
 	
@@ -39,6 +42,14 @@ public class LoginServlet extends HttpServlet {
 	
 	if(result==2||result==3) {
 		//로그인 성공처리
+		EmpVO vo = dao.getEmp(id); // 로그인을 해당 하는 id의 정보가 vo에 담김
+		
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("loginUser", vo);
+		 
+		url = "main.jsp";
+		
 	} else {
 		if(result==1) {
 			request.setAttribute("msg", "권한이 일치하지 않습니다.");
@@ -49,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}
 }
