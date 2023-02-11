@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<<<<<<< HEAD
 <title>Insert title here</title> 
+=======
+<title>Insert title here</title>
+>>>>>>> refs/remotes/origin/master
 </head>
 <body>
 
